@@ -1,4 +1,5 @@
 import { UserModel } from '@common/domain/entities'
+import { Reservation } from '@modules/reservations/entities'
 import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from 'typeorm'
 
 @Entity('CLIENTE')
@@ -10,6 +11,8 @@ export class Client extends UserModel {
 	name!: string
 
 	@Column({ name: 'ID_ACCESSO', type: 'varchar2', length: 36 })
-	@OneToMany(() => Reservation, reservation, reservation.client)
+	accessId!: string
+
+	@OneToMany(() => Reservation, reservation => reservation.client)
 	reservations?: Reservation[]
 }
