@@ -38,7 +38,7 @@ const entities = [Shop, Client, Reservation, Food]
 					synchronize: false,
 					entities,
 					keepConnectionAlive: true,
-					entityPrefix: 'T_CLG_',
+					entityPrefix: 'T_GS_',
 					namingStrategy: new CustomNamingStrategy()
 				}
 			}
