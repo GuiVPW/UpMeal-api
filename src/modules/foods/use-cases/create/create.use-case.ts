@@ -24,7 +24,11 @@ export class CreateUseCase implements BaseUseCase<Food> {
 			throw new NotFoundException('Estabelecimento não existe')
 		}
 
-		const createdFood = await this.foodRepository.save({ ...input, shopId })
+		const createdFood = await this.foodRepository.save({
+			...input,
+			isAvailable: true,
+			shopId
+		})
 
 		return {
 			food: createdFood
