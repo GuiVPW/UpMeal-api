@@ -44,7 +44,7 @@ export class LoginUseCase {
 
 		if (!comparedPassword) {
 			this.logger.error('Incorrect password')
-			throw new BadRequestException('Autenticação falhou')
+			throw new BadRequestException('Senha incorreta')
 		}
 
 		const token = Buffer.from(`${email}:${password}`).toString('base64')
@@ -55,7 +55,7 @@ export class LoginUseCase {
 		}
 
 		return {
-			token,
+			token: `Basic ${token}`,
 			shop: foundShop
 		}
 	}
