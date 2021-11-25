@@ -908,7 +908,7 @@
 
 "@types/oracledb@^5.2.1":
   version "5.2.1"
-  resolved "https://registry.yarnpkg.com/@types/oracledb/-/oracledb-5.2.1.tgz#b0c64d1ab68f1be6dc153a310ce0e840b8f333df"
+  resolved "https://npm.goodeggs.com/@types%2foracledb/-/oracledb-5.2.1.tgz#b0c64d1ab68f1be6dc153a310ce0e840b8f333df"
   integrity sha512-xtN24H9bpGB11ZiswZulAKYJ9xcWrF5BOAGFemcfeZkLmw8qAzVm+TAWT20VVLst6kh9VNxinY239S8EKgRBbA==
   dependencies:
     "@types/node" "*"
