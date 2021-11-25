@@ -8,5 +8,5 @@ export class CreateDto {
 	quantity!: number
 
 	@IsDateString()
-	validity!: string
+	validationDate!: string
 }

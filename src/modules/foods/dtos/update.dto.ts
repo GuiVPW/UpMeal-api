@@ -11,7 +11,7 @@ export class UpdateDto {
 
 	@IsDateString()
 	@IsOptional()
-	validity?: string
+	validationDate?: string
 
 	@IsBoolean()
 	@IsOptional()
