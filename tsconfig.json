@@ -1,0 +1,48 @@
+{
+	"compilerOptions": {
+		"target": "ESNext",
+		"module": "commonjs",
+		"lib": [
+			"ESNext"
+		],
+		"moduleResolution": "node",
+		"outDir": "dist",
+		"rootDir": ".",
+		"baseUrl": "src",
+		"noImplicitAny": true,
+		"resolveJsonModule": true,
+		"removeComments": true,
+		"sourceMap": true,
+		"isolatedModules": true,
+		"declaration": true,
+		"allowSyntheticDefaultImports": true,
+		"skipDefaultLibCheck": true,
+		"strict": true,
+		"esModuleInterop": true,
+		"allowUmdGlobalAccess": true,
+		"experimentalDecorators": true,
+		"emitDecoratorMetadata": true,
+		"skipLibCheck": true,
+		"forceConsistentCasingInFileNames": true,
+		"diagnostics": true,
+		"paths": {
+			"@services/*": [
+				"services/*"
+			],
+			"@modules/*": [
+				"modules/*"
+			],
+			"@common/*": [
+				"common/*"
+			],
+			"@core/*": [
+				"*"
+			]
+		}
+	},
+	"exclude": [
+		"dist",
+		"coverage",
+		"jest.config.ts"
+	]
+}
