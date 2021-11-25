@@ -17,7 +17,7 @@ export interface DatabaseConfig {
 
 const config: AppConfig = {
 	nest: {
-		port: +(PORT as string) ?? 5005
+		port: +(PORT as string) ?? 8080
 	},
 	database: {
 		password: dbConfig.password as string,

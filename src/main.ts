@@ -19,7 +19,7 @@ const bootstrap = async () => {
 	const configService = app.get(ConfigService)
 	const nestConfig = configService.get<NestConfig>('nest')
 
-	const port = nestConfig?.port || 5005
+	const port = nestConfig?.port || 8080
 
 	await app.listen(port, () => {
 		Logger.log(`App running at port: ${port}`)
