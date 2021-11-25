@@ -6,7 +6,7 @@ import { Client } from './decorators'
 import { LoginDto, SignUpDto } from './dtos'
 
 @Controller('clients')
-export class clientsController {
+export class ClientsController {
 	constructor(private readonly clientService: ClientService) {}
 
 	@Post('signup')
