@@ -10,13 +10,13 @@ export class Food {
 	name!: string
 
 	@Column({ name: 'VL_DISPONIBILIDADE', type: 'number', precision: 1, default: 1 })
-	isAvailable!: number
+	isAvailable!: boolean
 
 	@Column({ name: 'NR_QUANTIDADE', type: 'number', precision: 6, scale: 2 })
 	quantity!: number
 
 	@Column({ name: 'DT_VALIDADE', type: 'date' })
-	validity!: Date
+	validationDate!: Date
 
 	@Column({ name: 'CD_ESTABELECIMENTO', type: 'number', precision: 5 })
 	shopId!: number

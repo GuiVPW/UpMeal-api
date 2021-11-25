@@ -35,11 +35,8 @@ export class UpdateUseCase implements BaseUseCase<Food> {
 			throw new NotFoundException('Alimento não existe')
 		}
 
-		const { isAvailable, ...otherFields } = input
-
 		const updatedFood = await this.foodRepository.save({
-			...otherFields,
-			isAvailable: isAvailable ? 1 : 0,
+			...input,
 			shopId,
 			id: foodId
 		})

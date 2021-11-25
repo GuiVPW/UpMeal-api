@@ -18,7 +18,7 @@ export class FindManyUseCase implements BaseUseCase<Food> {
 	async execute(shopId: number, input: FindManyDto): Promise<Food[]> {
 		const foundFoods = await this.foodRepository.find({
 			cache: true,
-			where: { ...input, isAvailable: input.isAvailable ? 1 : 0, shopId }
+			where: { ...input, shopId }
 		})
 
 		this.logger.log('Found many foods')
