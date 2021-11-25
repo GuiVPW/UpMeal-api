@@ -70,7 +70,7 @@ export class SignUpUseCase implements BaseUseCase<Shop> {
 
 		const createdShop = await this.shopRepository.save(creationData)
 
-		const basicToken = Buffer.from(`${email}:${password}`).toString('base64')
+		const basicToken = Buffer.from(`${email}:${userPassword}`).toString('base64')
 
 		const {
 			password: createdPassword,
@@ -80,7 +80,7 @@ export class SignUpUseCase implements BaseUseCase<Shop> {
 		} = createdShop
 
 		return {
-			token: basicToken,
+			token: `Basic ${basicToken}`,
 			shop: {
 				...fields,
 				phone
