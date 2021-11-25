@@ -1,4 +1,5 @@
 import { BaseUseCase } from '@common/domain/base'
+import { formatPhone } from '@common/utils'
 import { Shop } from '@modules/shops/entities'
 import { Injectable, Logger, NotFoundException } from '@nestjs/common'
 import { InjectRepository } from '@nestjs/typeorm'
@@ -24,8 +25,11 @@ export class FindByIdUseCase implements BaseUseCase<Shop> {
 			throw new NotFoundException('Estabelecimento não existe')
 		}
 
-		delete foundShop.password
+		const { phone: phoneNumbers, phoneDigits, password, ...fields } = foundShop
 
-		return foundShop
+		return {
+			...fields,
+			phone: formatPhone(phoneDigits as number, phoneNumbers as number)
+		}
 	}
 }
