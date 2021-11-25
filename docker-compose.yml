@@ -1,0 +1,32 @@
+version: '3'
+
+services:
+  app:
+    container_name: acallme_app
+    image: node:latest
+    networks:
+      - app-network
+    volumes:
+      - .:/usr/src/app
+    ports:
+      - '3000:3000'
+    depends_on:
+      - db
+
+  db:
+    image: store/oracle/database-enterprise:12.2.0.1-slim
+    container_name: acallme_db
+    restart: unless-stopped
+    volumes:
+      - db-data:/opt/oracle/oradata
+    ports:
+      - '1521:1521'
+    networks:
+      - app-network
+
+volumes:
+  db-data:
+
+networks:
+  app-network:
+    driver: bridge
