@@ -9,7 +9,7 @@ export class Food {
 	@Column({ name: 'NM_ALIMENTO', type: 'varchar2', length: 50 })
 	name!: string
 
-	@Column({ name: 'VL_DISPONIBILIDADE', type: 'boolean' })
+	@Column({ name: 'VL_DISPONIBILIDADE', type: 'number', precision: 1 })
 	isAvailable!: boolean
 
 	@Column({ name: 'NR_QUANTIDADE', type: 'number', precision: 6, scale: 2 })
