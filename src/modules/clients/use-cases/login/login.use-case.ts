@@ -14,12 +14,12 @@ export class LoginUseCase {
 		private readonly clientRepository: Repository<Client>
 	) {}
 
-	async execute(input: LoginDto): Promise<{ client: Client; token: string }> {
+	async execute(input: LoginDto): Promise<{ client: Client }> {
 		const { accessToken } = input
 
 		let foundClient = await this.clientRepository.findOne({
 			where: {
-				accessToken
+				accessId: accessToken
 			}
 		})
 
@@ -36,7 +36,6 @@ export class LoginUseCase {
 		}
 
 		return {
-			token: accessToken,
 			client: foundClient
 		}
 	}
