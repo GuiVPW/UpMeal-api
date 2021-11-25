@@ -1,4 +1,5 @@
 import { DatabaseConfig } from '@common/config'
+import { NODE_ENV } from '@common/constants/configuration'
 import { Client } from '@modules/clients/entities'
 import { Food } from '@modules/foods/entities'
 import { Reservation } from '@modules/reservations/entities'
@@ -33,7 +34,7 @@ const entities = [Shop, Client, Reservation, Food]
 				return {
 					...databaseConfig,
 					type: 'oracle',
-					logging: true,
+					logging: NODE_ENV === 'development',
 					connectString: databaseConfig?.uri,
 					synchronize: false,
 					entities,
