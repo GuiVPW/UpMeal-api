@@ -1,5 +1,5 @@
 import { Exclude } from 'class-transformer'
-import { IsEmail, IsNumber, IsString, Length, Matches } from 'class-validator'
+import { IsEmail, IsNumber, IsString, Length, MinLength } from 'class-validator'
 
 export class SignUpDto {
 	@IsEmail()
@@ -9,8 +9,8 @@ export class SignUpDto {
 	@Length(2, 50)
 	name!: string
 
-	@Matches(/^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{6,}$/)
 	@IsString()
+	@MinLength(6)
 	password!: string
 
 	@IsString()
