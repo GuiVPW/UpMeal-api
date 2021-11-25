@@ -7,8 +7,11 @@ import {
 	Param,
 	Query,
 	UseGuards,
-	HttpCode
+	HttpCode,
+	UseInterceptors,
+	UploadedFile
 } from '@nestjs/common'
+import { FileInterceptor } from '@nestjs/platform-express'
 
 import { Shop } from './decorators'
 import { FindManyDto, LoginDto, SignUpDto } from './dtos'
@@ -20,8 +23,9 @@ export class ShopsController {
 
 	@Post()
 	@HttpCode(201)
-	async signUp(@Body() input: SignUpDto) {
-		return this.shopService.signUp(input)
+	@UseInterceptors(FileInterceptor('file'))
+	async signUp(@Body() input: SignUpDto, @UploadedFile() file: Express.Multer.File) {
+		return this.shopService.signUp({ file, ...input })
 	}
 
 	@Post('authenticate')
