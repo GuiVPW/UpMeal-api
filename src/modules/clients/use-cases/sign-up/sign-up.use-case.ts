@@ -44,6 +44,7 @@ export class SignUpUseCase implements BaseUseCase<Client> {
 
 		const createdClient = await this.clientRepository.save({
 			...otherFields,
+			name,
 			phone: fullPhone,
 			phoneDigits: dddPhone,
 			accessId
