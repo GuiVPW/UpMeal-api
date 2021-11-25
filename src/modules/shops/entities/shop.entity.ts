@@ -26,8 +26,8 @@ export class Shop extends UserModel {
 	@Column({ name: 'VL_LONGITUDE', type: 'number', scale: 6, precision: 9 })
 	longitude!: number
 
-	@OneToMany(() => Food, food => food.shop, { eager: false })
-	foods: Food[] = []
+	@OneToMany(() => Food, food => food.shop)
+	foods!: Food[]
 
 	@OneToMany(() => Reservation, reservation => reservation.shop)
 	reservations?: Reservation[]
