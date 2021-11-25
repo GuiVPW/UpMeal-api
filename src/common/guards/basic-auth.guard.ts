@@ -1,4 +1,4 @@
-import { ShopService } from '@modules/shops/shops.service'
+import { Shop } from '@modules/shops/entities'
 import {
 	Injectable,
 	CanActivate,
@@ -7,15 +7,18 @@ import {
 	HttpStatus,
 	Logger
 } from '@nestjs/common'
+import { InjectRepository } from '@nestjs/typeorm'
 import { CryptService } from '@services/crypt'
 import { Request } from 'express'
+import { Repository } from 'typeorm'
 
 @Injectable()
 export class BasicAuthGuard implements CanActivate {
 	private logger: Logger = new Logger('BasicAuthGuard')
 
 	constructor(
-		private readonly shopService: ShopService,
+		@InjectRepository(Shop)
+		private readonly shopRepository: Repository<Shop>,
 		private readonly cryptService: CryptService
 	) {}
 
@@ -55,7 +58,7 @@ export class BasicAuthGuard implements CanActivate {
 			throw new HttpException('Token inválido ou expirado', HttpStatus.UNAUTHORIZED)
 		}
 
-		const shop = await this.shopService.findOne({ email: decoded[0] })
+		const shop = await this.shopRepository.findOne({ email: decoded[0] })
 
 		if (!shop) {
 			this.logger.error('Shop does not exists')
