@@ -8,7 +8,7 @@ import { ILike, Repository } from 'typeorm'
 
 @Injectable()
 export class FindManyUseCase implements BaseUseCase<Shop> {
-	private logger: Logger = new Logger('FindManySpecialty')
+	private logger: Logger = new Logger('FindManyShops')
 
 	constructor(
 		@InjectRepository(Shop)

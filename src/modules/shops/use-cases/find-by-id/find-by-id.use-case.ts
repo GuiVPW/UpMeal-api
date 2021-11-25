@@ -7,7 +7,7 @@ import { Repository } from 'typeorm'
 
 @Injectable()
 export class FindByIdUseCase implements BaseUseCase<Shop> {
-	private logger: Logger = new Logger('FindSpecialtyById')
+	private logger: Logger = new Logger('FindShopById')
 
 	constructor(
 		@InjectRepository(Shop)

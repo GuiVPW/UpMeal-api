@@ -8,7 +8,7 @@ import { Food } from '../../entities'
 
 @Injectable()
 export class FindManyUseCase implements BaseUseCase<Food> {
-	private logger: Logger = new Logger('FindManySpecialty')
+	private logger: Logger = new Logger('FindManyFoods')
 
 	constructor(
 		@InjectRepository(Food)
