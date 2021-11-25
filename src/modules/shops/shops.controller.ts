@@ -18,13 +18,13 @@ import { ShopService } from './shops.service'
 export class ShopsController {
 	constructor(private readonly shopService: ShopService) {}
 
-	@Post('signup')
+	@Post()
 	@HttpCode(201)
 	async signUp(@Body() input: SignUpDto) {
 		return this.shopService.signUp(input)
 	}
 
-	@Post('login')
+	@Post('authenticate')
 	async login(@Body() input: LoginDto) {
 		return this.shopService.login(input)
 	}

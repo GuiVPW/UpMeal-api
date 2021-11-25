@@ -9,13 +9,13 @@ import { LoginDto, SignUpDto } from './dtos'
 export class ClientsController {
 	constructor(private readonly clientService: ClientService) {}
 
-	@Post('signup')
+	@Post()
 	@HttpCode(201)
 	async signUp(@Body() input: SignUpDto) {
 		return this.clientService.signUp(input)
 	}
 
-	@Post('login')
+	@Post('authenticate')
 	async login(@Body() input: LoginDto) {
 		return this.clientService.login(input)
 	}
