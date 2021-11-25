@@ -15,7 +15,7 @@ export class CreateUseCase implements BaseUseCase<Reservation> {
 		private readonly reservationRepository: Repository<Reservation>
 	) {}
 
-	async execute(shopId: number, clientId: number): Promise<{ reservation: Reservation }> {
+	async execute(shopId: number, clientId: number): Promise<Reservation> {
 		const shopExists = await this.shopService.findById(shopId)
 
 		if (!shopExists) {
@@ -25,8 +25,6 @@ export class CreateUseCase implements BaseUseCase<Reservation> {
 
 		const createdReservation = await this.reservationRepository.save({ clientId, shopId })
 
-		return {
-			reservation: createdReservation
-		}
+		return createdReservation
 	}
 }

@@ -15,7 +15,7 @@ export class FindManyUseCase implements BaseUseCase<Shop> {
 		private readonly shopRepository: Repository<Shop>
 	) {}
 
-	async execute(where: FindManyDto): Promise<{ shops: Shop[] }> {
+	async execute(where: FindManyDto): Promise<Shop[]> {
 		const keys: Partial<Record<keyof Shop, unknown>> = {}
 
 		if (where.name) {
@@ -37,8 +37,6 @@ export class FindManyUseCase implements BaseUseCase<Shop> {
 			}
 		})
 
-		return {
-			shops: formattedShops
-		}
+		return formattedShops
 	}
 }

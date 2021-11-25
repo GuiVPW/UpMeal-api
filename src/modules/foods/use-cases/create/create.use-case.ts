@@ -16,7 +16,7 @@ export class CreateUseCase implements BaseUseCase<Food> {
 		private readonly foodRepository: Repository<Food>
 	) {}
 
-	async execute(shopId: number, input: CreateDto): Promise<{ food: Food }> {
+	async execute(shopId: number, input: CreateDto): Promise<Food> {
 		const shopExists = await this.shopService.findById(shopId)
 
 		if (!shopExists) {
@@ -26,12 +26,9 @@ export class CreateUseCase implements BaseUseCase<Food> {
 
 		const createdFood = await this.foodRepository.save({
 			...input,
-			isAvailable: true,
 			shopId
 		})
 
-		return {
-			food: createdFood
-		}
+		return createdFood
 	}
 }

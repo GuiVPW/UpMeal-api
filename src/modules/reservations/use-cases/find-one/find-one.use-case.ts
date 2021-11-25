@@ -13,10 +13,7 @@ export class FindOneUseCase implements BaseUseCase<Reservation> {
 		private readonly reservationRepository: Repository<Reservation>
 	) {}
 
-	async execute(
-		shopId: number,
-		clientId: number
-	): Promise<{ reservation: Reservation | null }> {
+	async execute(shopId: number, clientId: number): Promise<Reservation | null> {
 		const foundReservation = await this.reservationRepository.findOne({
 			cache: true,
 			where: { shopId, clientId }
@@ -24,13 +21,9 @@ export class FindOneUseCase implements BaseUseCase<Reservation> {
 
 		if (!foundReservation) {
 			this.logger.log('No reservation was found to client with given id')
-			return {
-				reservation: null
-			}
+			return null
 		}
 
-		return {
-			reservation: foundReservation
-		}
+		return foundReservation
 	}
 }
