@@ -19,7 +19,16 @@ export class SignUpUseCase implements BaseUseCase<Shop> {
 	) {}
 
 	async execute(input: SignUpDto): Promise<{ shop: Shop; token: string }> {
-		const { email, name, password: userPassword, phone, file, ...otherFields } = input
+		const {
+			email,
+			name,
+			password: userPassword,
+			phone,
+			file,
+			latitude,
+			longitude,
+			...otherFields
+		} = input
 
 		const [dddPhone, fullPhone] = splitPhone(
 			+phone.replace('(', '').replace(')', '').replace(' ', '').replace('-', '')
@@ -65,7 +74,9 @@ export class SignUpUseCase implements BaseUseCase<Shop> {
 			name,
 			phone: fullPhone,
 			phoneDigits: dddPhone,
-			imageUrl
+			imageUrl,
+			latitude: +latitude.toFixed(5),
+			longitude: +longitude.toFixed(5)
 		}
 
 		const createdShop = await this.shopRepository.save(creationData)
