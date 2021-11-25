@@ -29,8 +29,8 @@ export class AccessTokenGuard implements CanActivate {
 			)
 		}
 
-		if (authHeader.length !== 60) {
-			this.logger.error('Header not valid or without Basic word')
+		if (authHeader.length !== 36) {
+			this.logger.error('Token is not an UUID')
 			throw new HttpException(
 				'Você não tem autorização para realizar esse acesso',
 				HttpStatus.UNAUTHORIZED
