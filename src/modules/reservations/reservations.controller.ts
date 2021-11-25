@@ -4,7 +4,7 @@ import { Controller, Get, Post, Param, UseGuards, HttpCode } from '@nestjs/commo
 
 import { ReservationService } from './reservations.service'
 
-@Controller('shops/{shopId}/reservations')
+@Controller('shops/:shopId/reservations')
 export class ReservationsController {
 	constructor(private readonly reservationService: ReservationService) {}
 
