@@ -1,15 +1,25 @@
 import { BasicAuthGuard, AccessTokenGuard } from '@common/guards'
-import { Controller, Get, Post, Body, Param, Query, UseGuards } from '@nestjs/common'
+import {
+	Controller,
+	Get,
+	Post,
+	Body,
+	Param,
+	Query,
+	UseGuards,
+	HttpCode
+} from '@nestjs/common'
 
 import { Shop } from './decorators'
 import { FindManyDto, LoginDto, SignUpDto } from './dtos'
 import { ShopService } from './shops.service'
 
 @Controller('shops')
-export class shopsController {
+export class ShopsController {
 	constructor(private readonly shopService: ShopService) {}
 
 	@Post('signup')
+	@HttpCode(201)
 	async signUp(@Body() input: SignUpDto) {
 		return this.shopService.signUp(input)
 	}
