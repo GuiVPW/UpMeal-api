@@ -24,13 +24,13 @@ export class UpdateUseCase implements BaseUseCase<Food> {
 			throw new NotFoundException('Estabelecimento não existe')
 		}
 
-		const foodExists = await this.foodRepository.count({
+		const foodExists = await this.foodRepository.findOne({
 			where: {
 				id: foodId
 			}
 		})
 
-		if (foodExists > 0) {
+		if (!foodExists) {
 			this.logger.error('Throwing because food does not exist')
 			throw new NotFoundException('Alimento não existe')
 		}
@@ -41,6 +41,9 @@ export class UpdateUseCase implements BaseUseCase<Food> {
 			id: foodId
 		})
 
-		return updatedFood
+		return {
+			...foodExists,
+			...updatedFood
+		}
 	}
 }
