@@ -15,16 +15,14 @@ export class FindManyUseCase implements BaseUseCase<Food> {
 		private readonly foodRepository: Repository<Food>
 	) {}
 
-	async execute(shopId: number, input: FindManyDto): Promise<{ foods: Food[] }> {
+	async execute(shopId: number, input: FindManyDto): Promise<Food[]> {
 		const foundFoods = await this.foodRepository.find({
 			cache: true,
-			where: { ...input, shopId }
+			where: { ...input, isAvailable: input.isAvailable ? 1 : 0, shopId }
 		})
 
 		this.logger.log('Found many foods')
 
-		return {
-			foods: foundFoods
-		}
+		return foundFoods
 	}
 }

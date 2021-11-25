@@ -16,7 +16,7 @@ export class UpdateUseCase implements BaseUseCase<Food> {
 		private readonly foodRepository: Repository<Food>
 	) {}
 
-	async execute(shopId: number, foodId: number, input: UpdateDto): Promise<{ food: Food }> {
+	async execute(shopId: number, foodId: number, input: UpdateDto): Promise<Food> {
 		const shopExists = await this.shopService.findById(shopId)
 
 		if (!shopExists) {
@@ -35,10 +35,15 @@ export class UpdateUseCase implements BaseUseCase<Food> {
 			throw new NotFoundException('Alimento não existe')
 		}
 
-		const updatedFood = await this.foodRepository.save({ ...input, shopId, id: foodId })
+		const { isAvailable, ...otherFields } = input
 
-		return {
-			food: updatedFood
-		}
+		const updatedFood = await this.foodRepository.save({
+			...otherFields,
+			isAvailable: isAvailable ? 1 : 0,
+			shopId,
+			id: foodId
+		})
+
+		return updatedFood
 	}
 }
