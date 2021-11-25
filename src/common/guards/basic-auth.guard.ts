@@ -8,7 +8,7 @@ import {
 	Logger
 } from '@nestjs/common'
 import { CryptService } from '@services/crypt'
-import { FastifyRequest } from 'fastify'
+import { Request } from 'express'
 
 @Injectable()
 export class BasicAuthGuard implements CanActivate {
@@ -20,7 +20,7 @@ export class BasicAuthGuard implements CanActivate {
 	) {}
 
 	async canActivate(context: ExecutionContext): Promise<boolean> {
-		const request = context.switchToHttp().getRequest() as FastifyRequest
+		const request = context.switchToHttp().getRequest() as Request
 
 		const authHeader = request.headers['authorization']
 
