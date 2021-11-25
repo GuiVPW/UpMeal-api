@@ -47,7 +47,6 @@ export class FoodsController {
 
 	@UseGuards(BasicAuthGuard)
 	@Put('/:id')
-	@HttpCode(204)
 	async update(
 		@Body() input: UpdateDto,
 		@Param('shopId') shopId: string,
