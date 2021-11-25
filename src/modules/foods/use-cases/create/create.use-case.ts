@@ -26,6 +26,7 @@ export class CreateUseCase implements BaseUseCase<Food> {
 
 		const createdFood = await this.foodRepository.save({
 			...input,
+			isAvailable: true,
 			shopId
 		})
 
