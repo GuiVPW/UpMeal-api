@@ -15,13 +15,15 @@ export class Reservation {
 
 	@ManyToOne(() => Shop, shop => shop.foods, { eager: true })
 	@JoinColumn({
-		name: 'RESERVA_ESTAB'
+		name: 'CD_ESTABELECIMENTO',
+		referencedColumnName: 'id'
 	})
 	shop!: Shop
 
 	@ManyToOne(() => Client, client => client.reservations, { eager: true })
 	@JoinColumn({
-		name: 'RESERVA_CLIENTE'
+		name: 'CD_CLIENTE',
+		referencedColumnName: 'id'
 	})
 	client!: Client
 }
