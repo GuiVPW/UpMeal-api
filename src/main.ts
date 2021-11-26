@@ -9,7 +9,14 @@ import { NestExpressApplication } from '@nestjs/platform-express'
 import { AppModule } from './app.module'
 
 const bootstrap = async () => {
-	const app = await NestFactory.create<NestExpressApplication>(AppModule)
+	const app = await NestFactory.create<NestExpressApplication>(AppModule, {
+		cors: {
+			allowedHeaders: ['Content-type', 'Authorization'],
+			credentials: true,
+			methods: ['GET', 'POST', 'PUT', 'DELETE'],
+			origin: '*'
+		}
+	})
 
 	app.useGlobalFilters(new HttpExceptionFilter())
 	app.useGlobalPipes(new ValidationPipe())
