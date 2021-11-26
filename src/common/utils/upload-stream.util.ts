@@ -1,10 +1,12 @@
+import internal from 'stream'
+
 import AWS from 'aws-sdk'
 import bluebird from 'bluebird'
 
 interface UploadStream {
 	key: string
 	bucket: string
-	body: any
+	body: internal.Readable
 }
 
 export const uploadStream = async ({ key, bucket, body }: UploadStream) => {
