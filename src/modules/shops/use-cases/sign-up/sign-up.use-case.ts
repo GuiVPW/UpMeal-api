@@ -1,3 +1,5 @@
+import { Readable } from 'stream'
+
 import { BaseUseCase } from '@common/domain/base'
 import { splitPhone, uploadStream } from '@common/utils'
 import { SignUpDto } from '@modules/shops/dtos'
@@ -57,11 +59,12 @@ export class SignUpUseCase implements BaseUseCase<Shop> {
 
 		if (file) {
 			this.logger.log('Uploading avatar url to s3 bucket and returning its url')
-			const { stream, mimetype } = file
+			const { mimetype, buffer } = file
+			const stream = Readable.from(buffer)
 			const [, fileExtension] = mimetype.split('/')
 
 			imageUrl = await uploadStream({
-				key: `${name}-${uuid()}.${fileExtension}`,
+				key: `${name.toLowerCase()}-${uuid()}.${fileExtension}`,
 				bucket: process.env.AWS_BUCKETNAME as string,
 				body: stream
 			})
@@ -75,8 +78,8 @@ export class SignUpUseCase implements BaseUseCase<Shop> {
 			phone: fullPhone,
 			phoneDigits: dddPhone,
 			imageUrl,
-			latitude: +latitude.toFixed(5),
-			longitude: +longitude.toFixed(5)
+			latitude: +latitude.substring(0, 5),
+			longitude: +longitude.substring(0, 5)
 		}
 
 		const createdShop = await this.shopRepository.save(creationData)
