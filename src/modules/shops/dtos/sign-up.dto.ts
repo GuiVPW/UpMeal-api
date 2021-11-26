@@ -1,5 +1,5 @@
 import { Exclude } from 'class-transformer'
-import { IsEmail, IsNumber, IsString, Length, MinLength } from 'class-validator'
+import { IsEmail, IsNumberString, IsString, Length, MinLength } from 'class-validator'
 
 export class SignUpDto {
 	@IsEmail()
@@ -19,11 +19,11 @@ export class SignUpDto {
 	@Exclude()
 	file?: Express.Multer.File
 
-	@IsNumber()
-	latitude!: number
+	@IsNumberString()
+	latitude!: string
 
-	@IsNumber()
-	longitude!: number
+	@IsNumberString()
+	longitude!: string
 
 	@IsString()
 	city!: string
