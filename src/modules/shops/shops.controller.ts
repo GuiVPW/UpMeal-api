@@ -1,4 +1,5 @@
 import { BasicAuthGuard, AccessTokenGuard } from '@common/guards'
+import { FoodService } from '@modules/foods/foods.service'
 import {
 	Controller,
 	Get,
@@ -19,7 +20,10 @@ import { ShopService } from './shops.service'
 
 @Controller('shops')
 export class ShopsController {
-	constructor(private readonly shopService: ShopService) {}
+	constructor(
+		private readonly shopService: ShopService,
+		private readonly foodService: FoodService
+	) {}
 
 	@Post()
 	@HttpCode(201)
@@ -30,16 +34,31 @@ export class ShopsController {
 
 	@Post('authenticate')
 	async login(@Body() input: LoginDto) {
-		return this.shopService.login(input)
+		const shopData = await this.shopService.login(input)
+		const foodData = await this.foodService.findMany(shopData.shop.id, {})
+
+		return {
+			shop: {
+				...shopData.shop,
+				foods: foodData
+			},
+			token: shopData.token
+		}
 	}
 
 	@UseGuards(BasicAuthGuard)
 	@Get('me')
 	async me(@Shop('id') id: number) {
-		const data = await this.shopService.findById(id)
+		const shopData = await this.shopService.findById(id)
+		const foodData = await this.foodService.findMany(id, {})
+
+		console.log(foodData)
 
 		return {
-			me: data
+			me: {
+				...shopData,
+				foods: foodData
+			}
 		}
 	}
 
