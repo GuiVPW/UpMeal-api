@@ -4,7 +4,7 @@ export class CreateDto {
 	@IsString()
 	name!: string
 
-	@IsNumber({ maxDecimalPlaces: 1 })
+	@IsNumber({ maxDecimalPlaces: 2 })
 	quantity!: number
 
 	@IsDateString()
