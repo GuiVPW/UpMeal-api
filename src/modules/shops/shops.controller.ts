@@ -27,7 +27,7 @@ export class ShopsController {
 
 	@Post()
 	@HttpCode(201)
-	@UseInterceptors(FileInterceptor('file'))
+	@UseInterceptors(FileInterceptor('image'))
 	async signUp(@Body() input: SignUpDto, @UploadedFile() file: Express.Multer.File) {
 		return this.shopService.signUp({ file, ...input })
 	}
