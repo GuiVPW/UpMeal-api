@@ -7,7 +7,6 @@ import { Shop } from '@modules/shops/entities'
 import { Module } from '@nestjs/common'
 import { ConfigModule, ConfigService } from '@nestjs/config'
 import { TypeOrmModule } from '@nestjs/typeorm'
-import oracledb from 'oracledb'
 
 import { CustomNamingStrategy } from './custom-name-strategy'
 
@@ -21,22 +20,16 @@ const entities = [Shop, Client, Reservation, Food]
 			useFactory: async (configService: ConfigService) => {
 				const databaseConfig = configService.get<DatabaseConfig>('database')
 
-				if (process.platform === 'win32') {
-					// Windows
-					oracledb.initOracleClient({ libDir: 'C:\\oracle\\instantclient_19_11' })
-				} else if (process.platform === 'darwin') {
-					// macOS
-					oracledb.initOracleClient({
-						libDir: `${process.env.HOME}/Downloads/instantclient_19_8`
-					})
-				}
-
 				return {
 					...databaseConfig,
-					type: 'oracle',
+					type: 'mysql',
 					logging: NODE_ENV === 'development',
-					connectString: databaseConfig?.uri,
-					synchronize: false,
+					host: databaseConfig?.uri ?? 'localhost',
+					port: 3306,
+					username: databaseConfig?.username ?? 'root',
+					password: databaseConfig?.password ?? 'admin',
+					database: 'upmeal',
+					synchronize: NODE_ENV === 'development',
 					entities,
 					keepConnectionAlive: true,
 					entityPrefix: 'T_GS_',

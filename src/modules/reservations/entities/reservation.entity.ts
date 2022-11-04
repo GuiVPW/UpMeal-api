@@ -4,13 +4,13 @@ import { Column, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn } from 't
 
 @Entity('RESERVA')
 export class Reservation {
-	@PrimaryGeneratedColumn({ name: 'CD_RESERVA', type: 'number' })
+	@PrimaryGeneratedColumn({ name: 'CD_RESERVA', type: 'int' })
 	id!: number
 
-	@Column({ name: 'CD_ESTABELECIMENTO', type: 'number', precision: 5 })
+	@Column({ name: 'CD_ESTABELECIMENTO', type: 'int' })
 	shopId!: number
 
-	@Column({ name: 'CD_CLIENTE', type: 'number', precision: 5 })
+	@Column({ name: 'CD_CLIENTE', type: 'int' })
 	clientId!: number
 
 	@ManyToOne(() => Shop, shop => shop.foods, { eager: true })
