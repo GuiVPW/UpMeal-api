@@ -40,7 +40,7 @@ export class SignUpUseCase implements BaseUseCase<Client> {
 			throw new BadRequestException('Cliente já existe')
 		}
 
-		const accessId = uuid()
+		const accessId = (Math.random() + 1).toString(36).substring(7)
 
 		const createdClient = await this.clientRepository.save({
 			...otherFields,
