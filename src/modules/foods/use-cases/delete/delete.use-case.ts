@@ -1,9 +1,11 @@
-import { BaseUseCase } from '@common/domain/base'
-import { Food } from '@modules/foods/entities'
-import { ShopService } from '@modules/shops/shops.service'
 import { Injectable, Logger, NotFoundException } from '@nestjs/common'
 import { InjectRepository } from '@nestjs/typeorm'
 import { Repository } from 'typeorm'
+
+import { BaseUseCase } from '@common/domain/base'
+
+import { Food } from '@modules/foods/entities'
+import { ShopService } from '@modules/shops/shops.service'
 
 @Injectable()
 export class DeleteUseCase implements BaseUseCase<Food> {

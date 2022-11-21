@@ -1,4 +1,3 @@
-import { Shop } from '@modules/shops/entities'
 import {
 	Injectable,
 	CanActivate,
@@ -8,9 +7,11 @@ import {
 	Logger
 } from '@nestjs/common'
 import { InjectRepository } from '@nestjs/typeorm'
-import { CryptService } from '@services/crypt'
-import { Request } from 'express'
 import { Repository } from 'typeorm'
+
+import { Shop } from '@modules/shops/entities'
+
+import { CryptService } from '@services/crypt'
 
 @Injectable()
 export class BasicAuthGuard implements CanActivate {
@@ -23,9 +24,9 @@ export class BasicAuthGuard implements CanActivate {
 	) {}
 
 	async canActivate(context: ExecutionContext): Promise<boolean> {
-		const request = context.switchToHttp().getRequest() as Request
+		const request = context.switchToHttp().getRequest()
 
-		const authHeader = request.headers['authorization']
+		const authHeader = request.headers.authorization
 
 		if (!authHeader) {
 			this.logger.error('No authorization header given')

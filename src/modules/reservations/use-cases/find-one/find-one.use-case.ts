@@ -1,8 +1,10 @@
-import { BaseUseCase } from '@common/domain/base'
-import { Reservation } from '@modules/reservations/entities'
 import { Injectable, Logger } from '@nestjs/common'
 import { InjectRepository } from '@nestjs/typeorm'
 import { Repository } from 'typeorm'
+
+import { BaseUseCase } from '@common/domain/base'
+
+import { Reservation } from '@modules/reservations/entities'
 
 @Injectable()
 export class FindOneUseCase implements BaseUseCase<Reservation> {

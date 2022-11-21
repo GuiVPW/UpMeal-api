@@ -1,4 +1,3 @@
-import { BasicAuthGuard } from '@common/guards'
 import {
 	Controller,
 	Get,
@@ -11,6 +10,8 @@ import {
 	Query,
 	Put
 } from '@nestjs/common'
+
+import { BasicAuthGuard } from '@common/guards'
 
 import { CreateDto, UpdateDto } from './dtos'
 import { FoodService } from './foods.service'
@@ -65,8 +66,6 @@ export class FoodsController {
 	async delete(@Param('shopId') shopId: string, @Param('id') foodId: string) {
 		const deleted = await this.foodService.delete(+shopId, +foodId)
 
-		if (deleted) {
-			return
-		}
+		return deleted
 	}
 }

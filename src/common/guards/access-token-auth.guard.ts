@@ -1,4 +1,3 @@
-import { ClientService } from '@modules/clients/clients.service'
 import {
 	Injectable,
 	CanActivate,
@@ -7,7 +6,8 @@ import {
 	HttpStatus,
 	Logger
 } from '@nestjs/common'
-import { Request } from 'express'
+
+import { ClientService } from '@modules/clients/clients.service'
 
 @Injectable()
 export class AccessTokenGuard implements CanActivate {
@@ -17,9 +17,9 @@ export class AccessTokenGuard implements CanActivate {
 
 	async canActivate(context: ExecutionContext): Promise<boolean> {
 		this.logger.log('Getting HTTP Request')
-		const request = context.switchToHttp().getRequest() as Request
+		const request = context.switchToHttp().getRequest()
 
-		const authHeader = request.headers['authorization']
+		const authHeader = request.headers.authorization
 
 		if (!authHeader) {
 			this.logger.error('No authorization header given')

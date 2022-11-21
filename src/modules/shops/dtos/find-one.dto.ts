@@ -1,4 +1,4 @@
-import { IsOptional, IsEmail, IsString, Length, IsPhoneNumber } from 'class-validator'
+import { IsOptional, IsEmail, IsString, IsPhoneNumber } from 'class-validator'
 
 export class FindOneDto {
 	@IsEmail()

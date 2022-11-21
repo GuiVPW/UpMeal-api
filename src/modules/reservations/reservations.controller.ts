@@ -1,6 +1,8 @@
-import { AccessTokenGuard } from '@common/guards'
-import { Client } from '@modules/clients/decorators'
 import { Controller, Get, Post, Param, UseGuards, HttpCode } from '@nestjs/common'
+
+import { AccessTokenGuard } from '@common/guards'
+
+import { Client } from '@modules/clients/decorators'
 
 import { ReservationService } from './reservations.service'
 

@@ -1,8 +1,10 @@
-import { BaseUseCase } from '@common/domain/base'
-import { FindManyDto } from '@modules/foods/dtos'
 import { Injectable, Logger } from '@nestjs/common'
 import { InjectRepository } from '@nestjs/typeorm'
 import { Repository } from 'typeorm'
+
+import { BaseUseCase } from '@common/domain/base'
+
+import { FindManyDto } from '@modules/foods/dtos'
 
 import { Food } from '../../entities'
 

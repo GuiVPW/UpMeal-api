@@ -1,5 +1,3 @@
-import { BasicAuthGuard, AccessTokenGuard } from '@common/guards'
-import { FoodService } from '@modules/foods/foods.service'
 import {
 	Controller,
 	Get,
@@ -13,6 +11,10 @@ import {
 	UploadedFile
 } from '@nestjs/common'
 import { FileInterceptor } from '@nestjs/platform-express'
+
+import { BasicAuthGuard, AccessTokenGuard } from '@common/guards'
+
+import { FoodService } from '@modules/foods/foods.service'
 
 import { Shop } from './decorators'
 import { FindManyDto, LoginDto, SignUpDto } from './dtos'

@@ -8,7 +8,7 @@
 		"moduleResolution": "node",
 		"outDir": "dist",
 		"rootDir": ".",
-		"baseUrl": "src",
+		"baseUrl": "./src",
 		"noImplicitAny": true,
 		"resolveJsonModule": true,
 		"removeComments": true,
