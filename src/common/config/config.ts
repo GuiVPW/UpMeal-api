@@ -10,7 +10,11 @@ export interface NestConfig {
 }
 
 export interface DatabaseConfig {
-	uri?: string
+	host: string
+	port: string | number
+	username: string
+	password: string
+	database: string
 }
 
 const config: AppConfig = {
@@ -18,7 +22,11 @@ const config: AppConfig = {
 		port: +(PORT as string) ?? 8080
 	},
 	database: {
-		uri: dbConfig.connectionString
+		host: dbConfig.host,
+		port: dbConfig.port,
+		username: dbConfig.username,
+		password: dbConfig.password,
+		database: dbConfig.database
 	}
 }
 

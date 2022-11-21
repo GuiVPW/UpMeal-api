@@ -1,7 +1,6 @@
-import { Module, Module } from '@nestjs/common'
-import { ConfigModule, ConfigService, ConfigModule, ConfigService } from '@nestjs/config'
-import { TypeOrmModule, TypeOrmModuleOptions, TypeOrmModule } from '@nestjs/typeorm'
-import oracledb from 'oracledb'
+import { Module } from '@nestjs/common'
+import { ConfigModule, ConfigService } from '@nestjs/config'
+import { TypeOrmModule, TypeOrmModuleOptions } from '@nestjs/typeorm'
 
 import { DatabaseConfig } from '@common/config'
 import { NODE_ENV } from '@common/constants/configuration'
@@ -27,11 +26,11 @@ const entities = [Shop, Client, Reservation, Food]
 					...databaseConfig,
 					type: 'mysql',
 					logging: NODE_ENV === 'development',
-					host: databaseConfig?.uri ?? 'localhost',
-					port: 3306,
-					username: databaseConfig?.username ?? 'root',
-					password: databaseConfig?.password ?? 'admin',
-					database: 'upmeal',
+					host: databaseConfig?.host,
+					port: databaseConfig?.port,
+					username: databaseConfig?.username,
+					password: databaseConfig?.password,
+					database: databaseConfig?.database,
 					synchronize: NODE_ENV === 'development',
 					entities,
 					keepConnectionAlive: true,
