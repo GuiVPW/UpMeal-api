@@ -1,25 +1,28 @@
-import { formatPhone } from '@common/utils'
-import { LoginDto } from '@modules/clients/dtos'
-import { Client } from '@modules/clients/entities'
-import { Injectable, Logger, NotFoundException } from '@nestjs/common'
+import { BadRequestException, Injectable, Logger, NotFoundException } from '@nestjs/common'
 import { InjectRepository } from '@nestjs/typeorm'
 import { Repository } from 'typeorm'
+
+import { LoginDto } from '@modules/clients/dtos'
+import { Client } from '@modules/clients/entities'
+
+import { CryptService } from '@services/crypt'
 
 @Injectable()
 export class LoginUseCase {
 	private logger: Logger = new Logger('LoginPatient')
 
 	constructor(
+		private readonly cryptService: CryptService,
 		@InjectRepository(Client)
 		private readonly clientRepository: Repository<Client>
 	) {}
 
-	async execute(input: LoginDto): Promise<{ client: Client }> {
-		const { accessToken } = input
+	async execute(input: LoginDto): Promise<{ client: Client; token: string }> {
+		const { name, password } = input
 
-		let foundClient = await this.clientRepository.findOne({
+		const foundClient = await this.clientRepository.findOne({
 			where: {
-				accessId: accessToken
+				name
 			}
 		})
 
@@ -27,16 +30,23 @@ export class LoginUseCase {
 			this.logger.error('Client not found')
 			throw new NotFoundException('Token inválido ou cliente não existe')
 		}
+		const { password: shopPassword, ...shopFields } = foundClient
 
-		const { phone: phoneNumbers, phoneDigits, ...fields } = foundClient
+		const comparedPassword = await this.cryptService.compare(
+			password,
+			shopPassword as string
+		)
 
-		foundClient = {
-			...fields,
-			phone: formatPhone(phoneDigits as number, phoneNumbers as number)
+		if (!comparedPassword) {
+			this.logger.error('Incorrect password')
+			throw new BadRequestException('Senha incorreta')
 		}
 
+		const token = Buffer.from(`${name}:${password}`).toString('base64')
+
 		return {
-			client: foundClient
+			token: `Basic ${token}`,
+			client: shopFields
 		}
 	}
 }

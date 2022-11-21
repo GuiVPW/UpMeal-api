@@ -1,10 +1,11 @@
-import { BaseUseCase } from '@common/domain/base'
-import { formatPhone } from '@common/utils'
-import { FindManyDto } from '@modules/shops/dtos'
-import { Shop } from '@modules/shops/entities'
 import { Injectable, Logger } from '@nestjs/common'
 import { InjectRepository } from '@nestjs/typeorm'
 import { ILike, Repository } from 'typeorm'
+
+import { BaseUseCase } from '@common/domain/base'
+
+import { FindManyDto } from '@modules/shops/dtos'
+import { Shop } from '@modules/shops/entities'
 
 @Injectable()
 export class FindManyUseCase implements BaseUseCase<Shop> {
@@ -29,12 +30,9 @@ export class FindManyUseCase implements BaseUseCase<Shop> {
 		})
 
 		const formattedShops = foundShops.map(shop => {
-			const { phone, phoneDigits, password, ...fields } = shop
+			const { password, ...fields } = shop
 
-			return {
-				...fields,
-				phone: formatPhone(phoneDigits as number, phone as number)
-			}
+			return fields
 		})
 
 		return formattedShops

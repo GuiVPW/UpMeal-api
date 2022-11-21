@@ -1,29 +1,33 @@
+import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from 'typeorm'
+
 import { UserModel } from '@common/domain/entities'
+
+/* eslint-disable import/no-cycle */
 import { Food } from '@modules/foods/entities'
 import { Reservation } from '@modules/reservations/entities'
-import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from 'typeorm'
+/* eslint-enable import/no-cycle */
 
 @Entity('ESTABELECIMENTO')
 export class Shop extends UserModel {
-	@PrimaryGeneratedColumn({ name: 'CD_ESTABELECIMENTO', type: 'number' })
+	@PrimaryGeneratedColumn({ name: 'CD_ESTABELECIMENTO', type: 'int' })
 	id!: number
 
-	@Column({ name: 'NM_ESTABELECIMENTO', type: 'varchar2', length: 50 })
+	@Column({ name: 'NM_ESTABELECIMENTO', type: 'varchar', length: 50 })
 	name!: string
 
-	@Column({ name: 'DS_EMAIL', unique: true, type: 'varchar2', length: 50 })
+	@Column({ name: 'DS_EMAIL', unique: true, type: 'varchar', length: 50 })
 	email!: string
 
-	@Column({ name: 'DS_SENHA', type: 'varchar2', length: 75 })
+	@Column({ name: 'DS_SENHA', type: 'varchar', length: 75 })
 	password?: string
 
-	@Column({ name: 'DS_IMAGEM_URL', type: 'varchar2', length: 100, nullable: true })
+	@Column({ name: 'DS_IMAGEM_URL', type: 'varchar', length: 100, nullable: true })
 	imageUrl?: string
 
-	@Column({ name: 'VL_LATITUDE', type: 'number', scale: 6, precision: 8 })
+	@Column({ name: 'VL_LATITUDE', type: 'int', precision: 8 })
 	latitude!: number
 
-	@Column({ name: 'VL_LONGITUDE', type: 'number', scale: 6, precision: 9 })
+	@Column({ name: 'VL_LONGITUDE', type: 'int', precision: 9 })
 	longitude!: number
 
 	@OneToMany(() => Food, food => food.shop)

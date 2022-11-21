@@ -1,14 +1,17 @@
 import { Readable } from 'stream'
 
-import { BaseUseCase } from '@common/domain/base'
-import { splitPhone, uploadStream } from '@common/utils'
-import { SignUpDto } from '@modules/shops/dtos'
-import { Shop } from '@modules/shops/entities'
 import { BadRequestException, Injectable, Logger } from '@nestjs/common'
 import { InjectRepository } from '@nestjs/typeorm'
-import { CryptService } from '@services/crypt'
 import { Repository } from 'typeorm'
 import { v4 as uuid } from 'uuid'
+
+import { BaseUseCase } from '@common/domain/base'
+import { uploadStream } from '@common/utils'
+
+import { SignUpDto } from '@modules/shops/dtos'
+import { Shop } from '@modules/shops/entities'
+
+import { CryptService } from '@services/crypt'
 
 @Injectable()
 export class SignUpUseCase implements BaseUseCase<Shop> {
@@ -32,18 +35,13 @@ export class SignUpUseCase implements BaseUseCase<Shop> {
 			...otherFields
 		} = input
 
-		const [dddPhone, fullPhone] = splitPhone(
-			+phone.replace('(', '').replace(')', '').replace(' ', '').replace('-', '')
-		)
-
 		const shopExists = await this.shopRepository.count({
 			where: [
 				{
 					email
 				},
 				{
-					phoneDigits: dddPhone,
-					phone: fullPhone
+					phone
 				}
 			]
 		})
@@ -55,7 +53,7 @@ export class SignUpUseCase implements BaseUseCase<Shop> {
 
 		const password = await this.cryptService.encrypt(userPassword)
 
-		let imageUrl: string | undefined = file === null ? undefined : undefined
+		let imageUrl: string | undefined
 
 		if (file) {
 			this.logger.log('Uploading avatar url to s3 bucket and returning its url')
@@ -75,9 +73,8 @@ export class SignUpUseCase implements BaseUseCase<Shop> {
 			email,
 			password,
 			name,
-			phone: fullPhone,
-			phoneDigits: dddPhone,
-			imageUrl,
+			phone,
+			imageUrl: imageUrl ?? undefined,
 			latitude: +latitude.substring(0, 5),
 			longitude: +longitude.substring(0, 5)
 		}
@@ -86,12 +83,7 @@ export class SignUpUseCase implements BaseUseCase<Shop> {
 
 		const basicToken = Buffer.from(`${email}:${userPassword}`).toString('base64')
 
-		const {
-			password: createdPassword,
-			phone: phoneNumbers,
-			phoneDigits,
-			...fields
-		} = createdShop
+		const { password: createdPassword, ...fields } = createdShop
 
 		return {
 			token: `Basic ${basicToken}`,

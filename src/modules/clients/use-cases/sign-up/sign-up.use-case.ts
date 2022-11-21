@@ -1,27 +1,26 @@
-import { BaseUseCase } from '@common/domain/base'
-import { splitPhone } from '@common/utils'
-import { SignUpDto } from '@modules/clients/dtos'
-import { Client } from '@modules/clients/entities'
 import { BadRequestException, Injectable, Logger } from '@nestjs/common'
 import { InjectRepository } from '@nestjs/typeorm'
 import { Repository } from 'typeorm'
-import { v4 as uuid } from 'uuid'
+
+import { BaseUseCase } from '@common/domain/base'
+
+import { SignUpDto } from '@modules/clients/dtos'
+import { Client } from '@modules/clients/entities'
+
+import { CryptService } from '@services/crypt'
 
 @Injectable()
 export class SignUpUseCase implements BaseUseCase<Client> {
 	private logger: Logger = new Logger('SignupClient')
 
 	constructor(
+		private readonly cryptService: CryptService,
 		@InjectRepository(Client)
 		private readonly clientRepository: Repository<Client>
 	) {}
 
 	async execute(input: SignUpDto): Promise<{ client: Client; token: string }> {
-		const { name, phone, ...otherFields } = input
-
-		const [dddPhone, fullPhone] = splitPhone(
-			+phone.replace('(', '').replace(')', '').replace(' ', '').replace('-', '')
-		)
+		const { name, phone, password, ...otherFields } = input
 
 		const clientExists = await this.clientRepository.count({
 			where: [
@@ -29,8 +28,7 @@ export class SignUpUseCase implements BaseUseCase<Client> {
 					name
 				},
 				{
-					phoneDigits: dddPhone,
-					phone: fullPhone
+					phone
 				}
 			]
 		})
@@ -40,24 +38,22 @@ export class SignUpUseCase implements BaseUseCase<Client> {
 			throw new BadRequestException('Cliente já existe')
 		}
 
-		const accessId = uuid()
+		const hashedPassword = await this.cryptService.encrypt(password)
 
 		const createdClient = await this.clientRepository.save({
 			...otherFields,
 			name,
-			phone: fullPhone,
-			phoneDigits: dddPhone,
-			accessId
+			phone,
+			password: hashedPassword
 		})
 
-		const { phone: clientPhone, phoneDigits, reservations, ...client } = createdClient
+		const { reservations, password: clientPassword, ...client } = createdClient
+
+		const token = Buffer.from(`${name}:${password}`).toString('base64')
 
 		return {
-			token: accessId,
-			client: {
-				...client,
-				phone
-			}
+			client,
+			token: `Basic ${token}`
 		}
 	}
 }

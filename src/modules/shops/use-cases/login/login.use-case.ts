@@ -1,10 +1,11 @@
-import { formatPhone } from '@common/utils'
-import { LoginDto } from '@modules/shops/dtos'
-import { Shop } from '@modules/shops/entities'
 import { BadRequestException, Injectable, Logger, NotFoundException } from '@nestjs/common'
 import { InjectRepository } from '@nestjs/typeorm'
-import { CryptService } from '@services/crypt'
 import { Repository } from 'typeorm'
+
+import { LoginDto } from '@modules/shops/dtos'
+import { Shop } from '@modules/shops/entities'
+
+import { CryptService } from '@services/crypt'
 
 @Injectable()
 export class LoginUseCase {
@@ -19,7 +20,7 @@ export class LoginUseCase {
 	async execute(input: LoginDto): Promise<{ shop: Shop; token: string }> {
 		const { password, email } = input
 
-		let foundShop = await this.shopRepository.findOne({
+		const foundShop = await this.shopRepository.findOne({
 			where: {
 				email
 			}
@@ -30,12 +31,7 @@ export class LoginUseCase {
 			throw new NotFoundException('Estabelecimento não existe')
 		}
 
-		const {
-			phone: phoneNumbers,
-			password: shopPassword,
-			phoneDigits,
-			...fields
-		} = foundShop
+		const { password: shopPassword, ...shopFields } = foundShop
 
 		const comparedPassword = await this.cryptService.compare(
 			password,
@@ -49,14 +45,9 @@ export class LoginUseCase {
 
 		const token = Buffer.from(`${email}:${password}`).toString('base64')
 
-		foundShop = {
-			...fields,
-			phone: formatPhone(phoneDigits as number, phoneNumbers as number)
-		}
-
 		return {
 			token: `Basic ${token}`,
-			shop: foundShop
+			shop: shopFields
 		}
 	}
 }

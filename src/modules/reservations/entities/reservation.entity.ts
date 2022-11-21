@@ -1,16 +1,19 @@
+import { Column, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn } from 'typeorm'
+
+/* eslint-disable import/no-cycle */
 import { Client } from '@modules/clients/entities'
 import { Shop } from '@modules/shops/entities'
-import { Column, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn } from 'typeorm'
+/* eslint-enable import/no-cycle */
 
 @Entity('RESERVA')
 export class Reservation {
-	@PrimaryGeneratedColumn({ name: 'CD_RESERVA', type: 'number' })
+	@PrimaryGeneratedColumn({ name: 'CD_RESERVA', type: 'int' })
 	id!: number
 
-	@Column({ name: 'CD_ESTABELECIMENTO', type: 'number', precision: 5 })
+	@Column({ name: 'CD_ESTABELECIMENTO', type: 'int', precision: 5 })
 	shopId!: number
 
-	@Column({ name: 'CD_CLIENTE', type: 'number', precision: 5 })
+	@Column({ name: 'CD_CLIENTE', type: 'int', precision: 5 })
 	clientId!: number
 
 	@ManyToOne(() => Shop, shop => shop.foods, { eager: true })

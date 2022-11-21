@@ -1,12 +1,16 @@
-import { IsString, Length } from 'class-validator'
+import { IsPhoneNumber, IsString, Length, MinLength } from 'class-validator'
 
 export class SignUpDto {
 	@IsString()
 	@Length(2, 50)
 	name!: string
 
-	@IsString()
+	@IsPhoneNumber('BR')
 	phone!: string
+
+	@IsString()
+	@MinLength(6)
+	password!: string
 
 	@IsString()
 	city!: string

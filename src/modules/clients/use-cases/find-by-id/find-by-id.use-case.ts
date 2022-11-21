@@ -1,9 +1,10 @@
-import { BaseUseCase } from '@common/domain/base'
-import { formatPhone } from '@common/utils'
-import { Client } from '@modules/clients/entities'
 import { Injectable, Logger, NotFoundException } from '@nestjs/common'
 import { InjectRepository } from '@nestjs/typeorm'
 import { Repository } from 'typeorm'
+
+import { BaseUseCase } from '@common/domain/base'
+
+import { Client } from '@modules/clients/entities'
 
 @Injectable()
 export class FindByIdUseCase implements BaseUseCase<Client> {
@@ -28,11 +29,8 @@ export class FindByIdUseCase implements BaseUseCase<Client> {
 			throw new NotFoundException('Estabelecimento não existe')
 		}
 
-		const { phone: phoneNumbers, phoneDigits, accessId, ...fields } = foundClient
+		const { accessId, ...client } = foundClient
 
-		return {
-			...fields,
-			phone: formatPhone(phoneDigits as number, phoneNumbers as number)
-		}
+		return client
 	}
 }

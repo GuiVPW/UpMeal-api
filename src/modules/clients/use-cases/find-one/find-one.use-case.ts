@@ -1,10 +1,11 @@
-import { BaseUseCase } from '@common/domain/base'
-import { formatPhone } from '@common/utils'
-import { FindOneDto } from '@modules/clients/dtos'
-import { Client } from '@modules/clients/entities'
 import { Injectable, Logger } from '@nestjs/common'
 import { InjectRepository } from '@nestjs/typeorm'
 import { Repository } from 'typeorm'
+
+import { BaseUseCase } from '@common/domain/base'
+
+import { FindOneDto } from '@modules/clients/dtos'
+import { Client } from '@modules/clients/entities'
 
 @Injectable()
 export class FindOneUseCase implements BaseUseCase<Client> {
@@ -36,13 +37,6 @@ export class FindOneUseCase implements BaseUseCase<Client> {
 		if (!foundClient) {
 			this.logger.log('No client was found')
 			return null
-		}
-
-		const { phone: phoneNumbers, phoneDigits, ...fields } = foundClient
-
-		foundClient = {
-			...fields,
-			phone: formatPhone(phoneDigits as number, phoneNumbers as number)
 		}
 
 		return foundClient
