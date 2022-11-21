@@ -1,5 +1,5 @@
 import { Exclude } from 'class-transformer'
-import { IsBoolean, IsOptional, IsString, Length } from 'class-validator'
+import { IsOptional, IsString, Length } from 'class-validator'
 
 export class UpdateDto {
 	@IsString()
@@ -10,8 +10,4 @@ export class UpdateDto {
 	@Exclude()
 	@IsOptional()
 	file?: Express.Multer.File
-
-	@IsBoolean()
-	@IsOptional()
-	isReserved?: boolean
 }

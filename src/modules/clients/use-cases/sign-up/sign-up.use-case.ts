@@ -7,20 +7,17 @@ import { BaseUseCase } from '@common/domain/base'
 import { SignUpDto } from '@modules/clients/dtos'
 import { Client } from '@modules/clients/entities'
 
-import { CryptService } from '@services/crypt'
-
 @Injectable()
 export class SignUpUseCase implements BaseUseCase<Client> {
 	private logger: Logger = new Logger('SignupClient')
 
 	constructor(
-		private readonly cryptService: CryptService,
 		@InjectRepository(Client)
 		private readonly clientRepository: Repository<Client>
 	) {}
 
 	async execute(input: SignUpDto): Promise<{ client: Client; token: string }> {
-		const { name, phone, password, ...otherFields } = input
+		const { name, phone, ...otherFields } = input
 
 		const clientExists = await this.clientRepository.count({
 			where: [
