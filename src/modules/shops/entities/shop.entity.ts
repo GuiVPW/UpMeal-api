@@ -21,7 +21,7 @@ export class Shop extends UserModel {
 	@Column({ name: 'DS_SENHA', type: 'varchar', length: 75 })
 	password?: string
 
-	@Column({ name: 'DS_IMAGEM_URL', type: 'varchar', length: 100, nullable: true })
+	@Column({ name: 'DS_IMAGEM_URL', type: 'text', nullable: true })
 	imageUrl?: string
 
 	@Column({ name: 'VL_LATITUDE', type: 'int' })

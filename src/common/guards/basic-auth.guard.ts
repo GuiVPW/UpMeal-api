@@ -55,8 +55,8 @@ export class BasicAuthGuard implements CanActivate {
 
 			decoded = decodedToken.split(':')
 		} catch {
-			this.logger.error('Token invalid or expired')
-			throw new HttpException('Token inválido ou expirado', HttpStatus.UNAUTHORIZED)
+			this.logger.error('Invalid Auth')
+			throw new HttpException('Autenticação inválida', HttpStatus.UNAUTHORIZED)
 		}
 
 		const shop = await this.shopRepository.findOne({ email: decoded[0] })

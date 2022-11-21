@@ -1,12 +1,13 @@
 import { Injectable } from '@nestjs/common'
 
-import { SignUpDto, LoginDto, FindOneDto, FindManyDto } from './dtos'
+import { SignUpDto, LoginDto, FindOneDto, FindManyDto, UpdateDto } from './dtos'
 import {
 	SignUpUseCase,
 	LoginUseCase,
 	FindByIdUseCase,
 	FindOneUseCase,
-	FindManyUseCase
+	FindManyUseCase,
+	UpdateUseCase
 } from './use-cases'
 
 @Injectable()
@@ -16,7 +17,8 @@ export class ShopService {
 		private loginUseCase: LoginUseCase,
 		private findByIdUseCase: FindByIdUseCase,
 		private findOneUseCase: FindOneUseCase,
-		private findManyUseCase: FindManyUseCase
+		private findManyUseCase: FindManyUseCase,
+		private updateUseCase: UpdateUseCase
 	) {}
 
 	async signUp(input: SignUpDto) {
@@ -38,5 +40,8 @@ export class ShopService {
 	async findMany(fields: FindManyDto) {
 		return this.findManyUseCase.execute(fields)
 	}
-	async updateOne(fields: Update)
+
+	async update(id: number, fields: UpdateDto) {
+		return this.updateUseCase.execute(id, fields)
+	}
 }

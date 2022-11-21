@@ -1,13 +1,15 @@
 import { Readable } from 'stream'
 
-import { BaseUseCase } from '@common/domain/base'
-import { splitPhone, uploadStream } from '@common/utils'
-import { UpdateDto } from '@modules/shops/dtos'
-import { Shop } from '@modules/shops/entities'
 import { BadRequestException, Injectable, Logger } from '@nestjs/common'
 import { InjectRepository } from '@nestjs/typeorm'
 import { Repository } from 'typeorm'
 import { v4 as uuid } from 'uuid'
+
+import { BaseUseCase } from '@common/domain/base'
+import { uploadStream } from '@common/utils'
+
+import { UpdateDto } from '@modules/shops/dtos'
+import { Shop } from '@modules/shops/entities'
 
 @Injectable()
 export class UpdateUseCase implements BaseUseCase<Shop> {
@@ -18,8 +20,8 @@ export class UpdateUseCase implements BaseUseCase<Shop> {
 		private readonly shopRepository: Repository<Shop>
 	) {}
 
-	async execute(id: number, input: UpdateDto): Promise<{ shop: Shop }> {
-		const { name, file, isReserved } = input
+	async execute(id: number, input: UpdateDto): Promise<boolean> {
+		const { name, phone, file } = input
 
 		const foundShop = await this.shopRepository.findOne({
 			where: [
@@ -49,25 +51,10 @@ export class UpdateUseCase implements BaseUseCase<Shop> {
 			})
 		}
 
-		const updatedShop = await this.shopRepository.update({ id }, { name, imageUrl })
-
-		// const createdShop = await this.shopRepository.save(creationData)
-
-		// const basicToken = Buffer.from(`${email}:${userPassword}`).toString('base64')
-
-		// const {
-		// 	password: createdPassword,
-		// 	phone: phoneNumbers,
-		// 	phoneDigits,
-		// 	...fields
-		// } = createdShop
-
-		// return {
-		// 	token: `Basic ${basicToken}`,
-		// 	shop: {
-		// 		...fields,
-		// 		phone
-		// 	}
-		// }
+		const updatedShop = await this.shopRepository.update(
+			{ id },
+			{ name, phone: phone ?? foundShop.phone, imageUrl: imageUrl ?? foundShop.imageUrl }
+		)
+		return updatedShop.affected === 1
 	}
 }

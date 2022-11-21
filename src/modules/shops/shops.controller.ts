@@ -8,7 +8,8 @@ import {
 	UseGuards,
 	HttpCode,
 	UseInterceptors,
-	UploadedFile
+	UploadedFile,
+	Patch
 } from '@nestjs/common'
 import { FileInterceptor } from '@nestjs/platform-express'
 
@@ -17,7 +18,7 @@ import { BasicAuthGuard, AccessTokenGuard } from '@common/guards'
 import { FoodService } from '@modules/foods/foods.service'
 
 import { Shop } from './decorators'
-import { FindManyDto, LoginDto, SignUpDto } from './dtos'
+import { FindManyDto, LoginDto, SignUpDto, UpdateDto } from './dtos'
 import { ShopService } from './shops.service'
 
 @Controller('shops')
@@ -54,8 +55,6 @@ export class ShopsController {
 		const shopData = await this.shopService.findById(id)
 		const foodData = await this.foodService.findMany(id, {})
 
-		console.log(foodData)
-
 		return {
 			me: {
 				...shopData,
@@ -81,5 +80,17 @@ export class ShopsController {
 		return {
 			shops: data
 		}
+	}
+
+	@Patch(':id')
+	@HttpCode(201)
+	@UseInterceptors(FileInterceptor('image'))
+	@UseGuards(BasicAuthGuard)
+	async update(
+		@Param('id') id: string,
+		@Body() input: UpdateDto,
+		@UploadedFile() file: Express.Multer.File
+	) {
+		return this.shopService.update(+id, { file, ...input })
 	}
 }
