@@ -24,10 +24,10 @@ export class Shop extends UserModel {
 	@Column({ name: 'DS_IMAGEM_URL', type: 'varchar', length: 100, nullable: true })
 	imageUrl?: string
 
-	@Column({ name: 'VL_LATITUDE', type: 'int', precision: 8 })
+	@Column({ name: 'VL_LATITUDE', type: 'int' })
 	latitude!: number
 
-	@Column({ name: 'VL_LONGITUDE', type: 'int', precision: 9 })
+	@Column({ name: 'VL_LONGITUDE', type: 'int' })
 	longitude!: number
 
 	@OneToMany(() => Food, food => food.shop)

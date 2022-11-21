@@ -29,14 +29,6 @@ export class AccessTokenGuard implements CanActivate {
 			)
 		}
 
-		if (authHeader.length !== 36) {
-			this.logger.error('Token is not an UUID')
-			throw new HttpException(
-				'Você não tem autorização para realizar esse acesso',
-				HttpStatus.UNAUTHORIZED
-			)
-		}
-
 		const client = await this.clientService.findOne({ accessId: authHeader })
 
 		if (!client) {

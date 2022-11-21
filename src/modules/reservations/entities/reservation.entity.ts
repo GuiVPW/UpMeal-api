@@ -10,10 +10,10 @@ export class Reservation {
 	@PrimaryGeneratedColumn({ name: 'CD_RESERVA', type: 'int' })
 	id!: number
 
-	@Column({ name: 'CD_ESTABELECIMENTO', type: 'int', precision: 5 })
+	@Column({ name: 'CD_ESTABELECIMENTO', type: 'int' })
 	shopId!: number
 
-	@Column({ name: 'CD_CLIENTE', type: 'int', precision: 5 })
+	@Column({ name: 'CD_CLIENTE', type: 'int' })
 	clientId!: number
 
 	@ManyToOne(() => Shop, shop => shop.foods, { eager: true })

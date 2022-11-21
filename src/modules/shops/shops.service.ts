@@ -38,4 +38,5 @@ export class ShopService {
 	async findMany(fields: FindManyDto) {
 		return this.findManyUseCase.execute(fields)
 	}
+	async updateOne(fields: Update)
 }

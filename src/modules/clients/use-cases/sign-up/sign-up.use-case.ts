@@ -38,22 +38,20 @@ export class SignUpUseCase implements BaseUseCase<Client> {
 			throw new BadRequestException('Cliente já existe')
 		}
 
-		const hashedPassword = await this.cryptService.encrypt(password)
+		const accessId = (Math.random() + 1).toString(36).substring(7)
 
 		const createdClient = await this.clientRepository.save({
 			...otherFields,
 			name,
 			phone,
-			password: hashedPassword
+			accessId
 		})
 
-		const { reservations, password: clientPassword, ...client } = createdClient
-
-		const token = Buffer.from(`${name}:${password}`).toString('base64')
+		const { reservations, ...client } = createdClient
 
 		return {
 			client,
-			token: `Basic ${token}`
+			token: accessId
 		}
 	}
 }
